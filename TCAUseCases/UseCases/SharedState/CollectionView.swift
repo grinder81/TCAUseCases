@@ -51,6 +51,10 @@ extension CollectionType {
             return "Five"
         }
     }
+    
+    var id: String {
+        return title
+    }
 }
 
 // MARK: - All Collections
@@ -60,7 +64,7 @@ struct CollectionsState: Equatable {
 }
 
 enum CollectionsAction {
-    case collection(id: UUID, action: CollectionAction)
+    case collection(id: String, action: CollectionAction)
 }
 
 struct CollectionsView: View {
@@ -89,7 +93,8 @@ struct CollectionsView: View {
 // 2. List view or vertical scroll view
 
 struct CollectionState: Equatable, Identifiable {
-    let id = UUID()
+    var id: String { collection.id }
+    
     var collection: CollectionType
     
     // API will provide it for exisitng record
