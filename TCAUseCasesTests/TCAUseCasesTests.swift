@@ -30,5 +30,13 @@ class TCAUseCasesTests: XCTestCase {
             // Put the code you want to measure the time of here.
         }
     }
+    
+    func testVerticalStateIsIdempotent() throws {
+        var state = CollectionState(collection: .one)
+        state.items = [.init(title: "one")]
+        state.isNavigationActive = true
+        XCTAssertNotNil(state.verticalState)
+        XCTAssertEqual(state.verticalState, state.verticalState)
+    }
 
 }

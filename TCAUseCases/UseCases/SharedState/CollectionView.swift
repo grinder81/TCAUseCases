@@ -144,7 +144,13 @@ extension CollectionState {
                     )
                 }
             }
-            let data = rows.map{ RowState(items: IdentifiedArrayOf($0) )}
+            let data = rows.enumerated()
+                .map {
+                    RowState(
+                        id: $0.offset,
+                        items: IdentifiedArrayOf($0.element)
+                    )
+                }
             
             // List of rows which has 2 item per row
             return CollectionListState(
@@ -241,14 +247,13 @@ struct CollectionView: View {
 // MARK: - List state
 
 // List of rows presented in vertical direction
-struct CollectionListState: Equatable, Identifiable {
-    let id = UUID()
+struct CollectionListState: Equatable {
     let collection: CollectionType
     var rows: IdentifiedArrayOf<RowState> = []
 }
 
 enum CollectionListAction {
-    case rows(id: UUID, action: RowAction)
+    case rows(id: Int, action: RowAction)
 }
 
 struct CollectionListView: View {
@@ -272,7 +277,7 @@ struct CollectionListView: View {
 // Each row contain number of elements. 2 or more in
 // horizontal direction
 struct RowState: Equatable, Identifiable {
-    let id = UUID()
+    var id: Int
     var items: IdentifiedArrayOf<PresentableState> = []
 }
 
